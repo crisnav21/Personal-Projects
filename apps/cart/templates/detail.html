@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Your Cart{% endblock %}
+
+{% block content %}
+<h2>Your Cart</h2>
+<ul>
+    {% for line in cart.lines.all %}
+        <li>{{ line.product.name }} - qty: {{ line.quantity }}</li>
+    {% empty %}
+        <li>Your cart is empty.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
