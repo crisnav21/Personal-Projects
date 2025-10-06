@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Home - e-Commerce{% endblock %}
+
+{% block hero %}
+<section class="hero">
+    <div class="container">
+        <h2>Discover products you'll love</h2>
+        <p>Fresh drops, clean design, and a frictionless checkout.</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <h3 style="margin:0 0 12px;">New Arrivals</h3>
+    <div class="grid">
+        {% for p in featured_products %}
+            <div class="card">
+                <div class="card-media">{{ p.name|slice:":1"}}</div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ p.name }}</h4>
+                    <div class="card-meta">
+                        <span class="badge">{{ p.category.name }}</span>
+                        <span class="price">${{ p.price }}</span>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="badge">No products yet - add some in Admin.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

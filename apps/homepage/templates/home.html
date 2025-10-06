@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <section>
+        <h2>Welcome to e-Commerce</h2>
+        <p>Discover our latest products.</p>
+    </section>
+
+    <section>
+        <h3>New Arrivals</h3>
+        <ul>
+            {% for p in featured_products %}
+                <li>
+                    <strong>{{ p.name }}</strong>
+                    - {{ p.category.name}} - ${{ p.price }}
+                </li>
+            {% empty %}
+                <li>No products yet.</li>
+            {% endfor %}
+        </ul>
+    </section>
+{% endblock %}

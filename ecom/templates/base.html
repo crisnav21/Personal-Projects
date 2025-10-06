@@ -3,17 +3,74 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <title>{% block title %}e-Commerce{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/site.css' %}">
+
+    <!--CSS Codes-->
+  <style>
+    :root{
+      --bg:#0b1016; --bg-soft:#0e141b; --card:#111926; --text:#e8eef7; --muted:#9fb0c9;
+      --brand:#4cc9f0; --brand-2:#7bffb3; --stroke:#1b2431; --shadow:0 10px 30px rgba(0,0,0,.25);
+    }
+    :root.light{
+      --bg:#f6f8fb; --bg-soft:#fff; --card:#fff; --text:#0e1726; --muted:#596680;
+      --brand:#2563eb; --brand-2:#10b981; --stroke:#e5eaf2; --shadow:0 10px 24px rgba(23,42,69,.08);
+    }
+    *{box-sizing:border-box} html,body{height:100%}
+    body{margin:0; background:var(--bg); color:var(--text); font:14px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif}
+    a{color:var(--brand); text-decoration:none} a:hover{text-decoration:underline}
+    .container{max-width:1080px; margin:0 auto; padding:24px}
+
+    /* Header */
+    .header{position:sticky; top:0; z-index:10; backdrop-filter:saturate(120%) blur(8px);
+      background:color-mix(in oklab, var(--bg) 80%, transparent); border-bottom:1px solid var(--stroke)}
+    .header-inner{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px 24px}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.3px}
+    .brand-badge{width:28px; height:28px; border-radius:10px; background:linear-gradient(135deg,var(--brand),var(--brand-2)); box-shadow:var(--shadow)}
+    .nav a{padding:8px 12px; border-radius:10px; color:var(--text)}
+    .nav a:hover{background:var(--card)}
+    .theme-toggle{border:1px solid var(--stroke); background:var(--bg-soft); color:var(--text);
+      border-radius:10px; padding:8px 12px; cursor:pointer}
+
+    /* Sections / cards / utilities */
+    .hero{padding:40px 24px; background:linear-gradient(180deg, color-mix(in oklab, var(--brand) 14%, transparent), transparent 60%)}
+    .hero h2{margin:0 0 8px; font-size:26px}
+    .hero p{margin:0; color:var(--muted)}
+    .section{padding:24px}
+    .grid{display:grid; grid-template-columns:repeat(12,1fr); gap:16px}
+    .card{
+      grid-column:span 12; border:1px solid var(--stroke); background:var(--card); border-radius:16px; overflow:hidden; box-shadow:var(--shadow);
+      transition:transform .12s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .card:hover{transform:translateY(-2px); box-shadow:0 12px 34px rgba(0,0,0,.28);
+      border-color:color-mix(in oklab, var(--brand) 50%, var(--stroke))}
+    .card-media{aspect-ratio:16/10; background:linear-gradient(135deg, color-mix(in oklab, var(--brand) 42%, black), var(--bg));
+      display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700}
+    .card-body{padding:14px}
+    .card-title{margin:0 0 6px; font-weight:700}
+    .card-meta{display:flex; align-items:center; justify-content:space-between; color:var(--muted)}
+    .badge{font-size:12px; padding:4px 8px; border-radius:999px; border:1px solid var(--stroke); background:var(--bg-soft)}
+    .price{font-weight:700}
+    .footer{border-top:1px solid var(--stroke); padding:24px; color:var(--muted); text-align:center}
+
+    @media (min-width:640px){ .card{grid-column:span 6} }
+    @media (min-width:940px){ .card{grid-column:span 4} }
+
+    /* --- page-specific CSS goes here if needed --- */
+    {% block page_css %}{% endblock %}
+  </style>
 </head>
 
 <body>
-    <header>
-        <h1><a href="/">e-Commerce</a></h1>
-        <nav>
-            <a href="/catalog/">Catalog</a>
-            <a href="/cart/">Cart</a>
-        </nav>
+    <header class="header">
+        <div class="header-inner contianer">
+            <a class="brand" href="/"><span class="brand-badge"></span><span>e-Commerce</span></a>
+            <nav class="nav">
+                <a href="/catalog/">Catalog</a>
+                <a href="/Cart/">Cart</a>
+            </nav>
+            <button class="theme-toggle" onclick="toggleTheme()">Theme</button>
+        </div>
     </header>
 
     <main>
@@ -21,7 +78,19 @@
     </main>
 
     <footer>
-        <small>&copy; {{ request.get_host }} </small>
+        <small>&copy; {{ request.get_host }} - Built with Python Django </small>
     </footer>
+
+    <script>
+        (function) {
+            const root = document.documentElemet;
+            cont pref = localStorage.getItem("theme") || "dark";
+            if (pref === "light") root.classicList.add("light");
+            window.toggleTheme = function(){
+                root.classList.toggle("light");
+                localStorage.setItem("theme", root.classList.contains("light")? "light": "dark");
+            }
+        }
+    </script>
 </body>
 </html>
